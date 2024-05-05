@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg';
 import './App.css';
 
 function App() {
+  console.log('[ls-comments] open action!!');
+
   const [count, setCount] = useState(0);
 
   return (
