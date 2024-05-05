@@ -8,15 +8,21 @@ function main() {
     console.log('[ls-comments] start ls-comments');
     const loadCheckInterval = setInterval(() => {
         // コメントの解決済み状態は非同期で読み込まれるため
-        // bodyにsynchrony-active classが付与されるまで1sec単位でスリープする
+        // bodyにsynchrony-active classが付与されるまで1secごとにチェックする
         const bodyClass = document.body.classList;
         if (bodyClass.contains('synchrony-active')) {
             clearInterval(loadCheckInterval);
-            console.debug('[ls-comments] load complete!!!');
+            console.debug('[ls-comments] load complete');
             const comments = checkComments();
             sendComments(comments);
         }
     }, 1000);
+
+    // ロード完了チェック関数が無限に動き続けないよう10秒経過したら停止する
+    setTimeout(() => {
+        console.debug('[ls-comments] stop loadCheckInterval');
+        clearInterval(loadCheckInterval);
+    }, 10000);
 }
 
 // 表示しているページのコメント一覧をスクレイピング
