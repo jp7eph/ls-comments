@@ -8,7 +8,7 @@ function main() {
     console.log('[ls-comments] start ls-comments');
     const loadCheckInterval = setInterval(() => {
         // コメントの解決済み状態は非同期で読み込まれるため
-        // bodyにsynchrony-active classが付与されるまで500ms単位でスリープする
+        // bodyにsynchrony-active classが付与されるまで1sec単位でスリープする
         const bodyClass = document.body.classList;
         if (bodyClass.contains('synchrony-active')) {
             clearInterval(loadCheckInterval);
@@ -16,7 +16,7 @@ function main() {
             const comments = checkComments();
             sendComments(comments);
         }
-    }, 500);
+    }, 1000);
 }
 
 // 表示しているページのコメント一覧をスクレイピング
@@ -25,11 +25,13 @@ function checkComments() {
     const e = document.getElementsByClassName('inline-comment-marker');
     const eleArray = Array.from(e);
     eleArray.forEach((ele) => {
-        const c = new Comment(ele);
-        if (ele.textContent != null) c.bodyText = ele.textContent;
-        if (!ele.classList.contains('valid')) c.isResolved = true;
-        comments.push(c);
-        console.trace('[ls-comments]', { c });
+        if (ele.attributes.getNamedItem('data-ref') != null) {
+            const c = new Comment(ele.attributes.getNamedItem('data-ref')?.nodeValue as string);
+            if (ele.textContent != null) c.bodyText = ele.textContent;
+            if (!ele.classList.contains('valid')) c.isResolved = true;
+            comments.push(c);
+            console.trace('[ls-comments]', { c });
+        }
     });
     return comments;
 }

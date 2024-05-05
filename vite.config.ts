@@ -13,8 +13,7 @@ const manifest = defineManifest({
     action: { default_popup: "index.html" },
     content_scripts: [
         {
-            matches: ["https://*.kddi.com/*"],
-            // matches: ['<all_urls>'],
+            matches: ['<all_urls>'],
             js: ["src/content-script.ts"],
             run_at: "document_end",
             all_frames: true,
