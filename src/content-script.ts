@@ -41,3 +41,25 @@ function sendComments(comments: Comment[]) {
     const message: Message = { type: 'setComments', comments: comments };
     chrome.runtime.sendMessage(message);
 }
+
+chrome.runtime.onMessage.addListener((message: Message) => {
+    switch (message.type) {
+        // browser actionで選択されたコメントにジャンプする処理
+        case 'jumpComments': {
+            console.debug('[ls-comments] recived jumpComments', { message });
+            // data-ref属性が付与されたElementを全取得してから指定されたコメントを検索する
+            const elements = Array.from(document.querySelectorAll('[data-ref]'));
+            const element = elements.find(e => {
+                if (e.attributes.getNamedItem('data-ref') != null && message.comments.length > 0) {
+                    return e.attributes.getNamedItem('data-ref')?.nodeValue == message.comments[0].refId;
+                }
+            });
+            if (element != undefined) element.scrollIntoView({ block: 'center' });
+            break;
+        }
+        default: {
+            console.error('[ls-comments]', 'undefined type');
+            break;
+        }
+    }
+});

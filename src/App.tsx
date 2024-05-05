@@ -25,7 +25,15 @@ function App() {
         <List>
           {
             comments.map((comment) => (
-              <ListItemButton key={comment.refId}>
+              <ListItemButton key={comment.refId} onClick={() => {
+                // 表示しているタブのcontent-scriptに対してコメントジャンプの指示を飛ばす
+                chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
+                  if (tabs.length > 0 && tabs[0].id != undefined) {
+                    const message: Message = { type: 'jumpComments', comments: [comment] };
+                    chrome.tabs.sendMessage(tabs[0].id, message);
+                  }
+                });
+              }}>
                 <ListItemIcon>
                   {comment.isResolved ? (<DoneIcon />) : (<CommentIcon />)}
                 </ListItemIcon>
@@ -35,8 +43,9 @@ function App() {
               </ListItemButton>
             ))
           }
-        </List>
-      )}
+        </List >
+      )
+      }
     </>
   );
 }
