@@ -12,8 +12,8 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
     switch (message.type) {
         // content-scriptからコメント一覧を受信したとき
         case 'setComments': {
-            chrome.tabs.query({ active: true, lastFocusedWindow: true }, async function (tabs) {
-                if (tabs[0].id != undefined) {
+            chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
+                if (tabs.length > 0 && tabs[0].id != undefined) {
                     console.debug('[ls-comments] recived setComments', 'tabId: ' + tabs[0].id, { message });
                     comments.set(tabs[0].id, message.comments);
                     const numOfUnresolved = message.comments.filter(value => { return !value.isResolved; }).length;
@@ -25,8 +25,8 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
 
         // browser actionからコメント一覧を取得されるとき
         case 'getComments': {
-            chrome.tabs.query({ active: true, lastFocusedWindow: true }, async function (tabs) {
-                if (tabs[0].id != undefined) {
+            chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
+                if (tabs.length > 0 && tabs[0].id != undefined) {
                     console.debug('[ls-comments] recived getComments', 'tabId: ' + tabs[0].id);
                     sendResponse(comments.get(tabs[0].id));
                 }
@@ -40,4 +40,8 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
             break;
         }
     }
+
+    // getCommentでtabを取得する際に非同期になるため
+    // brwoser actionにレスポンスするためにソケットをCloseしないようにする
+    return true;
 });
