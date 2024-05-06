@@ -44,28 +44,7 @@ function App() {
               {openUnResolveds ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={openUnResolveds} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                {
-                  unResolvedComments.map((comment) => (
-                    <ListItem key={comment.refId} disablePadding>
-                      <ListItemButton sx={{ pl: 4 }} onClick={() => {
-                        // 表示しているタブのcontent-scriptに対してコメントジャンプの指示を飛ばす
-                        chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
-                          if (tabs.length > 0 && tabs[0].id != undefined) {
-                            const message: Message = { type: 'jumpComments', comments: [comment] };
-                            chrome.tabs.sendMessage(tabs[0].id, message);
-                          }
-                        });
-                      }}>
-                        <ListItemIcon>
-                          {comment.isResolved ? (<DoneIcon color='success' />) : (<CommentIcon color='warning' />)}
-                        </ListItemIcon>
-                        <ListItemText primary={comment.bodyText} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))
-                }
-              </List>
+              <CommentList comments={unResolvedComments} />
             </Collapse>
             <ListItemButton onClick={handleOpenResolveds}>
               <ListItemIcon>
@@ -75,28 +54,7 @@ function App() {
               {openResolveds ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={openResolveds} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                {
-                  resolvedComments.map((comment) => (
-                    <ListItem key={comment.refId} disablePadding>
-                      <ListItemButton sx={{ pl: 4 }} onClick={() => {
-                        // 表示しているタブのcontent-scriptに対してコメントジャンプの指示を飛ばす
-                        chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
-                          if (tabs.length > 0 && tabs[0].id != undefined) {
-                            const message: Message = { type: 'jumpComments', comments: [comment] };
-                            chrome.tabs.sendMessage(tabs[0].id, message);
-                          }
-                        });
-                      }}>
-                        <ListItemIcon>
-                          {comment.isResolved ? (<DoneIcon color='success' />) : (<CommentIcon color='warning' />)}
-                        </ListItemIcon>
-                        <ListItemText primary={comment.bodyText} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))
-                }
-              </List>
+              <CommentList comments={resolvedComments} />
             </Collapse>
           </List >
         </Box>
@@ -107,3 +65,32 @@ function App() {
 }
 
 export default App;
+
+function CommentList(props: { comments: Comment[] }) {
+  return (
+    <>
+      <List disablePadding>
+        {
+          props.comments.map((comment) => (
+            <ListItem key={comment.refId} disablePadding>
+              <ListItemButton sx={{ pl: 4 }} onClick={() => {
+                // 表示しているタブのcontent-scriptに対してコメントジャンプの指示を飛ばす
+                chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
+                  if (tabs.length > 0 && tabs[0].id != undefined) {
+                    const message: Message = { type: 'jumpComments', comments: [comment] };
+                    chrome.tabs.sendMessage(tabs[0].id, message);
+                  }
+                });
+              }}>
+                <ListItemIcon>
+                  {comment.isResolved ? (<DoneIcon color='success' />) : (<CommentIcon color='warning' />)}
+                </ListItemIcon>
+                <ListItemText primary={comment.bodyText} />
+              </ListItemButton>
+            </ListItem>
+          ))
+        }
+      </List>
+    </>
+  );
+}
