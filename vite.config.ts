@@ -1,22 +1,22 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { crx, defineManifest } from "@crxjs/vite-plugin";
-import packageJson from "./package.json";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { crx, defineManifest } from '@crxjs/vite-plugin';
+import packageJson from './package.json';
 
 const manifest = defineManifest({
     manifest_version: 3,
-    name: "ls comments",
+    name: 'ls comments',
     description: packageJson.description,
     version: packageJson.version,
     permissions: [
-        "tabs",
+        'activeTab',
     ],
-    action: { default_popup: "index.html" },
+    action: { default_popup: 'index.html' },
     content_scripts: [
         {
             matches: ['<all_urls>'],
-            js: ["src/content-script.ts"],
-            run_at: "document_end",
+            js: ['src/content-script.ts'],
+            run_at: 'document_end',
             all_frames: true,
         },
     ],
