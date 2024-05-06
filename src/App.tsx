@@ -30,7 +30,7 @@ function App() {
     <>
       <AppBar position='static'>
         <Toolbar>
-          <Typography variant='h6'>ls-comments</Typography>
+          <Typography variant='h6'>ls comments</Typography>
         </Toolbar>
       </AppBar>
       {(unResolvedComments == null && resolvedComments == null) ||
