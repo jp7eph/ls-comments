@@ -33,7 +33,8 @@ function App() {
           <Typography variant='h6'>ls-comments</Typography>
         </Toolbar>
       </AppBar>
-      {unResolvedComments == null && resolvedComments == null ? (
+      {(unResolvedComments == null && resolvedComments == null) ||
+        (unResolvedComments.length == 0 && resolvedComments.length == 0) ? (
         <Typography variant='body1' sx={{ p: 2 }}>インラインコメントがありません</Typography>
       ) : (
         <Box sx={{ height: 300, width: '100%', overflow: 'auto' }}>
