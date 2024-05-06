@@ -9,6 +9,6 @@ Confluence を表示すると未解決/解決済のコメント一覧を表示�
 ## How to use
 
 1. 下記リンクからブラウザの拡張機能をインストールします  
-   [ls comment | Chrome ウェブストア](https://chrome.google.com/webstore/detail/mcmpmiobcpglbbgeondndhkgeclngpak)
+   [ls comments | Chrome ウェブストア](https://chrome.google.com/webstore/detail/mcmpmiobcpglbbgeondndhkgeclngpak)
 
 1. Confluence のページを表示すると未解決のコメント数がバッジに表示されます
