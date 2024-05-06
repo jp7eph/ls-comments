@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
         case 'getComments': {
             chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
                 if (tabs.length > 0 && tabs[0].id != undefined) {
-                    console.debug('[ls-comments] recived getComments', 'tabId: ' + tabs[0].id);
+                    // console.debug('[ls-comments] recived getComments', 'tabId: ' + tabs[0].id);
                     sendResponse(comments.get(tabs[0].id));
                 }
             });
@@ -43,5 +43,7 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
 
     // getCommentでtabを取得する際に非同期になるため
     // brwoser actionにレスポンスするためにソケットをCloseしないようにする
+    // https://qiita.com/Tachibana446/items/ab15021099d54d1209c2
+    // FIXME: return trueせずにクライアント側で非同期待ち合わせしたい
     return true;
 });

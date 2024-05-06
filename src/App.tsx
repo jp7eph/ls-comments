@@ -8,15 +8,17 @@ import DoneIcon from '@mui/icons-material/Done';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 function App() {
-  console.log('[ls-comments] open action!!');
+  // console.trace('[ls-comments] open action!!');
 
   const [unResolvedComments, setUnResolvedComments] = useState<Comment[]>([]);
   const [resolvedComments, setResolvedComments] = useState<Comment[]>([]);
   const message: Message = { type: 'getComments', comments: [] };
   chrome.runtime.sendMessage(message, (response: Comment[]) => {
-    console.log('[ls-comments]', 'get comments', { response });
-    setUnResolvedComments(response.filter((comment) => { return !comment.isResolved; }));
-    setResolvedComments(response.filter((comment) => { return comment.isResolved; }));
+    // console.debug('[ls-comments]', 'get comments', { response });
+    if (response != null) {
+      setUnResolvedComments(response.filter((comment) => { return !comment.isResolved; }));
+      setResolvedComments(response.filter((comment) => { return comment.isResolved; }));
+    }
   });
 
   const [openUnResolveds, setOpenUnResolveds] = useState(true);
@@ -31,7 +33,7 @@ function App() {
           <Typography variant='h6'>ls-comments</Typography>
         </Toolbar>
       </AppBar>
-      {unResolvedComments == null || unResolvedComments.length == 0 ? (
+      {unResolvedComments == null && resolvedComments == null ? (
         <Typography variant='body1' sx={{ p: 2 }}>インラインコメントがありません</Typography>
       ) : (
         <Box sx={{ height: 300, width: '100%', overflow: 'auto' }}>
