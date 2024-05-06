@@ -18,11 +18,11 @@ function main() {
         }
     }, 1000);
 
-    // ロード完了チェック関数が無限に動き続けないよう10秒経過したら停止する
+    // ロード完了チェック関数が無限に動き続けないよう60秒経過したら停止する
     setTimeout(() => {
         console.debug('[ls-comments] stop loadCheckInterval');
         clearInterval(loadCheckInterval);
-    }, 10000);
+    }, 60000);
 }
 
 // 表示しているページのコメント一覧をスクレイピング
