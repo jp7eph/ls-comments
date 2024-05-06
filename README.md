@@ -1,30 +1,14 @@
-# React + TypeScript + Vite
+# ls comments
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+List of comments of Confluence
 
-Currently, two official plugins are available:
+Confluence を表示すると未解決/解決済のコメント一覧を表示できます。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+未解決のコメント数がバッジに表示されます。
 
-## Expanding the ESLint configuration
+## How to use
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. 下記リンクからブラウザの拡張機能をインストールします  
+   [ls comment | Chrome ウェブストア](https://chrome.google.com/webstore/detail/mcmpmiobcpglbbgeondndhkgeclngpak)
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Confluence のページを表示すると未解決のコメント数がバッジに表示されます
